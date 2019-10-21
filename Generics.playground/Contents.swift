@@ -136,32 +136,14 @@ struct IntStackCon: Container {
   }
 }
 
-protocol StackContainer {
+protocol ContainerEquatable {
   associatedtype Item: Equatable
   mutating func append(_ item: Item)
   var count: Int { get }
   subscript(i: Int) -> Item { get }
 }
 
-//struct StackCon<Element>: StackContainer {
-//  // original IntStack implementation
-//  var items = [Element]()
-//  mutating func push(_ item: Element) {
-//    items.append(item)
-//  }
-//  mutating func pop() -> Element {
-//    return items.removeLast()
-//  }
-//
-//  // conformance to the Container protocol
-//  mutating func append(_ item: Element) {
-//    self.push(item)
-//  }
-//  var count: Int {
-//    return items.count
-//  }
-//  subscript(i: Int) -> Element {
-//    return items[i]
-//  }
-//}
-
+protocol SuffixableContainer: ContainerEquatable {
+  associatedtype Suffix: SuffixableContainer where Suffix.Item == Item
+  func suffix(_ size: Int) -> Suffix
+}
